@@ -13,9 +13,17 @@ const Login = (props) => {
 
   useEffect(
     () => {
-      setFormIsValid(
-        enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      );
+      const identifier = setTimeout(() => {
+        console.log("checking");
+        setFormIsValid(
+          enteredEmail.includes("@") && enteredPassword.trim().length > 6
+        );
+      }, 500);
+
+      return () => {
+        console.log("CLEANUP");
+        clearTimeout(identifier);
+      };
     },
     // o useEffect só entrará em ação se ocorrer uma mudança no email ou senha
     [enteredEmail, enteredPassword]
