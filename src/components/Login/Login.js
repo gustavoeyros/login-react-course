@@ -33,7 +33,7 @@ const passwordReducer = (state, action) => {
   if (action.type === "INPUT_BLUR") {
     return {
       value: state.value,
-      isValid: action.val.trim().length > 6,
+      isValid: state.value.trim().length > 6,
     };
   }
   return {
@@ -57,14 +57,14 @@ const Login = (props) => {
     value: "",
     isValid: null,
   });
-  /* 
+
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
   useEffect(
     () => {
       const identifier = setTimeout(() => {
         console.log("checking");
-        setFormIsValid(
-          enteredEmail.includes("@") && enteredPassword.trim().length > 6
-        );
+        setFormIsValid(emailIsValid && passwordIsValid);
       }, 500);
 
       return () => {
@@ -73,19 +73,18 @@ const Login = (props) => {
       };
     },
     // o useEffect só entrará em ação se ocorrer uma mudança no email ou senha
-    [enteredEmail, enteredPassword]
-  ); */
-
+    [emailIsValid, passwordIsValid]
+  );
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
 
-    setFormIsValid(event.target.value.includes("@") && passwordState.isValid);
+    // setFormIsValid(event.target.value.includes("@") && passwordState.isValid);
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
 
-    setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+    // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
   };
 
   const validateEmailHandler = () => {
